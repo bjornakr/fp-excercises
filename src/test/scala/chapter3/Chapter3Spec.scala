@@ -110,43 +110,134 @@ class Chapter3Spec extends WordSpec {
     }
 
     "dropWhile" when {
-        val all = (a: Any) => true
 
         "drop all" when {
             "[]" should {
                 "be []" in {
-                    assert(Chapter3.dropWhile(List(), all) == List())
+                    assert(Chapter3.dropWhile(List())(_ => true) == List())
                 }
             }
 
             "[a, b, c]" should {
                 "be []" in {
-                    assert(Chapter3.dropWhile(List(1, 2, 3), all) == List())
+                    assert(Chapter3.dropWhile(List(1, 2, 3))(_ => true) == List())
                 }
             }
         }
 
-        val none = (a: Any) => false
-
         "drop none" when {
             "[]" should {
                 "be []" in {
-                    assert(Chapter3.dropWhile(List(), none) == List())
+                    assert(Chapter3.dropWhile(List())(_ => false) == List())
                 }
             }
 
             "[a, b, c]" should {
                 "be [a, b, c]" in {
-                    assert(Chapter3.dropWhile(List(1, 2, 3), none) == List(1, 2, 3))
+                    assert(Chapter3.dropWhile(List(1, 2, 3))(_ => false) == List(1, 2, 3))
                 }
             }
         }
 
-        val even = (x: Int) => x % 2 == 0
+        "drop even from [2, 4, 6, 7, 8, 9]" should {
+            "be [7, 8, 9]" in {
+                assert(Chapter3.dropWhile(List(2, 4, 6, 7, 8, 9))(_ % 2 == 0) == List(7, 8, 9))
+            }
+        }
 
-        "drop even from [1, 2, 3, 4, 5]" should {
-            "be [1, 3, 5]" in {
-                assert(Chapter3.dropWhile(List(1, 2, 3, 4, 5), even) == List(1, 3, 5))
+        "drop x < 4 from [1, 2, 3, 4, 5, 6]" should {
+            "be [4, 5, 6]" in {
+                assert(Chapter3.dropWhile(List(1, 2, 3, 4, 5, 6))(_ < 4) == List(4, 5, 6))
+            }
+        }
+    }
+
+    "init" when {
+        "[]" should {
+            "be []" in {
+                assert(Chapter3.init(List()) == List())
+            }
+        }
+
+        "[x]" should {
+            "be []" in {
+                assert(Chapter3.init(List(1)) == List())
+            }
+        }
+
+        "[a, b]" should {
+            "be [a]" in {
+                assert(Chapter3.init(List(1, 2)) == List(1))
+            }
+        }
+
+        "[a, b, c, d]" should {
+            "be [a, b, c]" in {
+                assert(Chapter3.init(List(1, 2, 3, 4)) == List(1, 2, 3))
+            }
+        }
+    }
+
+    "length" when {
+        "[]" should {
+            "be 0" in {
+                assert(Chapter3.length(List()) == 0)
+            }
+        }
+
+        "[x]" should {
+            "be 1" in {
+                assert(Chapter3.length(List(1)) == 1)
+            }
+        }
+
+        "[a, b, c, d, e]" should {
+            "be 5" in {
+                assert(Chapter3.length(List(1, 2, 3, 4, 5)) == 5)
+            }
+        }
+    }
+
+    "sumL" when {
+        "[1..10]" should {
+            "be 55" in {
+                assert(Chapter3.sumL((1 to 10).toList) == 55)
+            }
+        }
+    }
+
+    "productL" when {
+        "[]" should {
+            "be 1" in {
+                assert(Chapter3.productL(List()) == 1)
+            }
+        }
+
+        "[1..5]" should {
+            "be 120" in {
+                assert(Chapter3.productL((1 to 5).toList) == 120)
+            }
+        }
+    }
+
+    "lengthL" when {
+        "[1..10]" should {
+            "be 10" in {
+                assert(Chapter3.lengthL((1 to 10).toList) == 10)
+            }
+        }
+    }
+
+    "reverse" when {
+        "[]" should {
+            "be []" in {
+                assert(Chapter3.reverse(List()) == List())
+            }
+        }
+
+        "[1, 2, 3]" should {
+            "be [3, 2, 1]" in {
+                assert(Chapter3.reverse(List(1, 2, 3)) == List(3, 2, 1))
             }
         }
     }
